@@ -47,7 +47,7 @@ func main() {
 }
 
 func suspend(user User, pat string) {
-  var url = fmt.Sprintf("https://octodemo.com/api/v3/users/%s/suspended", user.Login)
+  var url = fmt.Sprintf("https://%s/api/v3/users/%s/suspended", os.Getenv("GHE_SERVER"), user.Login)
 
   log.Printf("Suspend %s with %s\n", user.Login, url)
 
@@ -125,14 +125,14 @@ func getUserList(url, pat string) []User {
     return nil
   } else {
     // Working the pagination as described in https://developer.github.com/guides/traversing-with-pagination/
-    // linkHeader := <https://octodemo.com/api/v3/users?since=35>; rel="next", <https://octodemo.com/api/v3/users{?since}>; rel="first"
+    // linkHeader := <https://gheserver.com/api/v3/users?since=35>; rel="next", <https://gheserver.com/api/v3/users{?since}>; rel="first"
     linkHeader := resp.Header.Get("Link")
 
     if linkHeader != "" {
       linkArray := linkListRegex.FindAllStringSubmatch(linkHeader, -1)
       /*
-      linkArray := [["<https://octodemo.com/api/v3/users?since=35>; rel=next", "https://octodemo.com/api/v3/users?since=35", "next"],
-       ["<https://octodemo.com/api/v3/users{?since}>; rel="first", "https://octodemo.com/api/v3/users{?since}, "first"]]
+      linkArray := [["<https://gheserver.com/api/v3/users?since=35>; rel=next", "https://gheserver.com/api/v3/users?since=35", "next"],
+       ["<https://gheserver.com/api/v3/users{?since}>; rel="first", "https://gheserver.com/api/v3/users{?since}, "first"]]
       */
       for _, linkElement := range linkArray {
         if linkElement[2] == "next" {
