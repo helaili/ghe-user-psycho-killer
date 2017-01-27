@@ -2,9 +2,9 @@ package main
 
 import (
   "os"
-	"fmt"
-	"log"
-	"net/http"
+  "fmt"
+  "log"
+  "net/http"
   "encoding/json"
   "regexp"
 )
@@ -47,7 +47,6 @@ func main() {
 }
 
 func suspend(user User, pat string) {
-  user.Login = "helaili-tmp"
   var url = fmt.Sprintf("https://octodemo.com/api/v3/users/%s/suspended", user.Login)
 
   log.Printf("Suspend %s with %s\n", user.Login, url)
