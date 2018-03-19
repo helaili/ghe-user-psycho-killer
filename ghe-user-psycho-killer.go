@@ -2,6 +2,7 @@ package main
 
 import (
   "os"
+  "crypto/tls"
   "fmt"
   "log"
   "net/http"
@@ -23,6 +24,9 @@ func main() {
   if os.Getenv("GHE_PERSONAL_ACCESS_TOKEN") == "" {
     log.Fatal("Missing environment variable GHE_PERSONAL_ACCESS_TOKEN")
     return
+  }
+  if os.Getenv("GHE_SKIP_VERIFY") == "" || os.Getenv("GHE_SKIP_VERIFY") == "true" {
+    http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
   }
 
   whiteListUrl := fmt.Sprintf("https://%s/api/v3/orgs/%s/members", os.Getenv("GHE_SERVER"), os.Getenv("GHE_WHITE_LIST_ORG"))
