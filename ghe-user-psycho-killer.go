@@ -121,7 +121,7 @@ func getUserList(url, pat string) []User {
   // Decode the JSON array
   decodeErr := json.NewDecoder(resp.Body).Decode(&userArray)
   if decodeErr != nil {
-  	log.Fatal(decodeErr)
+  	log.Fatal(decodeErr, " - Response was:", resp.Body)
     return nil
   } else {
     // Working the pagination as described in https://developer.github.com/guides/traversing-with-pagination/
